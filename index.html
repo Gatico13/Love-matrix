@@ -104,6 +104,12 @@
   Tu navegador no soporta audio.
 </audio>
 
+  <script>
+  const music = document.getElementById('bgMusic');
+document.addEventListener('click', () => {
+  music.play().catch(e => console.log("Autoplay bloqueado:", e));
+});
+  
 <script>
   // Canvas Matrix Background
   const canvas = document.getElementById('matrixCanvas');
@@ -173,10 +179,7 @@ ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; "#00ff00";
     canvas.height = window.innerHeight;
   });
 
-  const music = document.getElementById('bgMusic');
-document.addEventListener('click', () => {
-  music.play().catch(e => console.log("Autoplay bloqueado:", e));
-});
+
 
 </script>
 
