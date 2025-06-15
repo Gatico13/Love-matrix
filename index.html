@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Love Explosion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: explode 1s ease-out forwards;
+      z-index: 2;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(45deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(45deg);
+      }
+    }
+
+    .mensaje-oculto {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #d50000;
+      padding: 30px 40px;
+      border-radius: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+      z-index: 3;
+    }
+
+    .mensaje-oculto button {
+      margin-top: 15px;
+      background-color: #d50000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.7) translate(-50%, -50%); }
+      to { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+<div id="mensaje" class="mensaje-oculto">
+  💌 My love is infinite for you Emilia-Tan 💖<br>
+  <button onclick="document.getElementById('mensaje').style.display='none'">Cerrar</button>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="Love - Zoé.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio.
+</audio>
+
+<script>
+  // Canvas Matrix Background
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const columns = Math.floor(canvas.width / 20);
+  const drops = Array(columns).fill(1);
+  const words = ["My love", "♥", "❤️", "Forever", "💖", "Te amo Emilia"];
+
+  function drawMatrix() {
+    // Limpiar con opacidad para que desaparezcan gradualmente
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Colores personalizados
+const colors = ["#9C27B0", "#2196F3", "#FFFFFF"]; // Morado, azul, blanco
+ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; "#00ff00";
+    ctx.font = "16px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = words[Math.floor(Math.random() * words.length)];
+      ctx.fillText(text, i * 20, drops[i] * 20);
+
+      // Reiniciar aleatoriamente
+      if (drops[i] * 20 > canvas.height || Math.random() > 0.95) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 80);
+
+  // Explosión de corazones y mensaje oculto
+  let clics = 0;
+  const mensaje = document.getElementById("mensaje");
+
+  document.addEventListener("click", function(e) {
+    clics++;
+
+    const heartCount = 10;
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = `${e.clientX}px`;
+      heart.style.top = `${e.clientY}px`;
+
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = Math.random() * 100;
+      heart.style.setProperty('--dx', `${Math.cos(angle) * radius}px`);
+      heart.style.setProperty('--dy', `${Math.sin(angle) * radius}px`);
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    }
+
+    if (clics === 10) {
+      mensaje.style.display = "block";
+    }
+  });
+
+  // Redimensionar canvas si cambia tamaño ventana
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  const music = document.getElementById('bgMusic');
+document.addEventListener('click', () => {
+  music.play().catch(e => console.log("Autoplay bloqueado:", e));
+});
+
+</script>
+
+</body>
+</html>
+
+      heart.style.setProperty('--dx', dx);
+      heart.style.setProperty('--dy', dy);
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    }
+
+    if (clics === 10) {
+      mensaje.style.display = "block";
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  });
+</script>
+
+</body>
+</html>
